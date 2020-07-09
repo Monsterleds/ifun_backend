@@ -29,6 +29,12 @@ class UsersRepositories {
     return findEmail;
   }
 
+  public async findById(id: string): Promise<User | undefined> {
+    const findUser = await this.ormRepository.findOne({ where: { id }});
+
+    return findUser;
+  }
+
   public async findAll(): Promise<User[]> {
     const allUsers = this.ormRepository.find();
 
