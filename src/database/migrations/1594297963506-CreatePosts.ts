@@ -31,6 +31,7 @@ export class CreatePosts1594297963506 implements MigrationInterface {
                     name: 'likes',
                     type: 'integer',
                     isNullable: false,
+                    default: 0,
                 },
                 {
                     name: 'avatar_id',

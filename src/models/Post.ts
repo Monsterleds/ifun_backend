@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 import User from './User';
+import Comment from './Comment';
 
 @Entity('posts')
 class Post {
@@ -28,6 +29,11 @@ class Post {
   @ManyToOne(type => User, user => user.post)
   @JoinColumn({ name: 'id_user' })
   user: User;
+
+  @OneToMany(type => Comment, comment => comment.post, {
+    eager: true,
+  })
+  comments: Comment[];
 
   @CreateDateColumn()
   created_at: Date;

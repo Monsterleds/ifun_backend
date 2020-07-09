@@ -6,7 +6,6 @@ interface CreatePostsDTO {
   title: string;
   subtitle: string;
   description: string;
-  likes: number;
   id_user: string;
 }
 
@@ -17,10 +16,16 @@ class PostsRepositories {
     this.ormRepository = getRepository(Posts);
   }
 
-  public async create({ title, subtitle, description, likes, id_user }: CreatePostsDTO) {
-    const post = this.ormRepository.create({ title, subtitle, description, likes, id_user });
+  public async create({ title, subtitle, description, id_user }: CreatePostsDTO) {
+    const post = this.ormRepository.create({ title, subtitle, description, id_user });
 
     await this.ormRepository.save(post);
+
+    return post;
+  }
+
+  public async findById(id: string): Promise <Posts | undefined> {
+    const post = await this.ormRepository.findOne({ id });
 
     return post;
   }

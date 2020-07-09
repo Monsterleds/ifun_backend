@@ -1,17 +1,17 @@
 import { Router } from 'express';
 
-import CreateUserSerive from '../services/CreateUserService';
+import CreateUserServices from '../services/CreateUserServices';
 import ListAllUserServices from '../services/ListAllUserServices';
 
 const userRoutes = Router();
 
-const createUserSerive = new CreateUserSerive();
+const createUserServices = new CreateUserServices();
 const listAllUserServices = new ListAllUserServices();
 
 userRoutes.post('/', async (request, response) => {
   const { name, email, password } = request.body;
 
-  const user = await createUserSerive.execute({ name, email, password });
+  const user = await createUserServices.execute({ name, email, password });
 
   return response.json(user);
 });
