@@ -1,3 +1,4 @@
+import { hash } from 'bcrypt';
 import User from '../models/User';
 
 import AppError from '../errors/AppError';
@@ -20,7 +21,9 @@ class CreateUserService {
       throw new AppError('User already exists.');
     }
 
-    const allUsers = await usersRepositories.create({ name, email, password });
+    const passwordHashed = await hash(password, 12)
+
+    const allUsers = await usersRepositories.create({ name, email, password: passwordHashed });
 
     return allUsers;
   }
