@@ -14,14 +14,14 @@ class ListAllUserServices {
   public async execute(): Promise<User[]> {
     const allUsers = await this.usersRepositories.findAll();
 
-    const usersCrypted = allUsers.map(user => {
+    const usersEncrypted = allUsers.map(user => {
       delete user.email;
       delete user.password;
 
       return user;
     });
 
-    return usersCrypted;
+    return usersEncrypted;
   }
 }
 
