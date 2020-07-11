@@ -6,6 +6,7 @@ import 'express-async-errors';
 import './container/index';
 import cors from 'cors';
 
+import rateLimiter from './infra/http/middlewares/rateLimiter';
 import routes from './infra/http/routes';
 import AppError from './errors/AppError';
 
@@ -13,6 +14,7 @@ import './infra/typeorm/index';
 
 const app = express();
 
+app.use(rateLimiter);
 app.use(express.json());
 app.use(cors());
 app.use(routes);
