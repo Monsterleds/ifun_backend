@@ -5,7 +5,7 @@ import IPostsRepositories from '@modules/post/repositories/IPostsRepositories';
 
 import AppError from '@shared/errors/AppError';
 
-interface RequestPostsDTO {
+interface RequestDTO {
   title: string;
   subtitle: string;
   description: string;
@@ -21,7 +21,7 @@ class CreatePostService {
     @inject('PostsRepositories')
     private postsRepositories: IPostsRepositories) {}
 
-  public async execute({ title, subtitle, description, id_user }: RequestPostsDTO) {
+  public async execute({ title, subtitle, description, id_user }: RequestDTO) {
     const user = await this.usersRepositories.findById(id_user);
 
     if(!user) {
