@@ -55,4 +55,34 @@ describe('AuthenticatedUser', () => {
 
     await expect(createPostServices.execute(post)).rejects.toBeInstanceOf(AppError);
   });
+
+  it('must not be able to create a post that exceeds the maximum description', async () => {
+    const fakePostsRepositories = new FakePostsRepositories();
+    const fakeUsersRepositories = new FakeUsersRepositories();
+
+    const createPostServices = new CreatePostServices(fakeUsersRepositories, fakePostsRepositories);
+    const createUserServices = new CreateUserServices(fakeUsersRepositories);
+
+    const user = {
+      name: 'John Doe',
+      email: 'johndoe@gmail.com',
+      password: '123456'
+    }
+
+    const newUser = await createUserServices.execute(user);
+
+    if(!newUser?.id) {
+      throw new AppError('User need a id', 400)
+    }
+
+    const post = {
+      id_user: newUser.id,
+      title: 'funny hehe',
+      subtitle: 'awd',
+      description: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaa',
+      avatar_id: ''
+    };
+
+    await expect(createPostServices.execute(post)).rejects.toBeInstanceOf(AppError);
+  });
 });

@@ -10,9 +10,9 @@ export default class UsersController {
 
     const createUserServices = container.resolve(CreateUserServices);
 
-    const user = await createUserServices.execute({ name, email, password });
+    await createUserServices.execute({ name, email, password });
 
-    return response.json(user);
+    next();
   }
 
   public async index(request: Request, response: Response, next: NextFunction) {
