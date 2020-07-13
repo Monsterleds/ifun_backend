@@ -25,7 +25,15 @@ class CreatePostService {
     const user = await this.usersRepositories.findById(id_user);
 
     if(description.length > 330) {
-      throw new AppError('Max description is exceeded');
+      throw new AppError('Maximum description is exceeded');
+    }
+
+    if(subtitle.length > 40) {
+      throw new AppError('Maximum subtitle is exceeded');
+    }
+
+    if(title.length > 25) {
+      throw new AppError('Maximum title is exceeded');
     }
 
     if(!user) {
