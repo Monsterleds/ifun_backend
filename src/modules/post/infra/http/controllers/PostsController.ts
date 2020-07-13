@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 
 import CreatePostService from '@modules/post/services/CreatePostServices';
 import ListPostDetailsServices from '@modules/post/services/ListPostDetailsServices';
+import ListAllPostsServices from '@modules/post/services/ListAllPostsServices';
 
 export default class PostsController {
   public async create(request: Request, response: Response, next: NextFunction) {
@@ -15,7 +16,7 @@ export default class PostsController {
     return response.json(post);
   }
   
-  public async index(request: Request, response: Response, next: NextFunction) {
+  public async show(request: Request, response: Response, next: NextFunction) {
     const { id } = request.params;
 
     const listPostDetailsServices = container.resolve(ListPostDetailsServices);
@@ -23,5 +24,13 @@ export default class PostsController {
     const post =  await listPostDetailsServices.execute(id);
   
     return response.json(post);
+  }
+
+  public async index(request: Request, response: Response, next: NextFunction) {
+    const listAllPostsServices = container.resolve(ListAllPostsServices);
+  
+    const allPosts =  await listAllPostsServices.execute();
+  
+    return response.json(allPosts);
   }
 }

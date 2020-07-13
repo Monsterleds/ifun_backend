@@ -34,6 +34,10 @@ class PostsRepositories {
 
     return post;
   }
+
+  public async findAll(): Promise <Posts[]> {
+    return this.ormRepository;
+  }
 }
 
 export default PostsRepositories;

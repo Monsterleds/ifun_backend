@@ -24,6 +24,12 @@ class PostsRepositories {
 
     return post;
   }
+
+  public async findAll(): Promise <Posts[]> {
+    const allPosts = await this.ormRepository.find();
+
+    return allPosts;
+  }
 }
 
 export default PostsRepositories;
