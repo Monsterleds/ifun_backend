@@ -2,9 +2,10 @@ import { Repository, getRepository } from 'typeorm';
 
 import Posts from '../entities/Post';
 
+import IPostsRepositories from '@modules/post/repositories/IPostsRepositories';
 import ICreatePostsDTO from '@modules/post/dtos/ICreatePostsDTO';
 
-class PostsRepositories {
+class PostsRepositories implements IPostsRepositories {
   private ormRepository: Repository<Posts>
 
   constructor() {
@@ -29,6 +30,14 @@ class PostsRepositories {
     const allPosts = await this.ormRepository.find();
 
     return allPosts;
+  }
+
+  public async likeIncrement(id: string): Promise<void> {
+    await this.ormRepository.increment({ id }, 'likes', 1);
+  }
+
+  public async likeDecrement(id: string): Promise<void> {
+    await this.ormRepository.decrement({ id }, 'likes', 1);
   }
 }
 

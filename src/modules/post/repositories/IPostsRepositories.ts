@@ -6,4 +6,6 @@ export default interface IPostsRepositories {
   findAll(): Promise<Posts[]>;
   findById(id: string): Promise <Posts | undefined>;
   create(data: ICreatePostsDTO): Promise<Posts>;
+  likeIncrement(id: string): Promise<void>;
+  likeDecrement(id: string): Promise<void>;
 }

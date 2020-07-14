@@ -24,6 +24,10 @@ class CreatePostService {
   public async execute({ title, subtitle, description, id_user }: RequestDTO) {
     const user = await this.usersRepositories.findById(id_user);
 
+    if(!user) {
+      throw new AppError('User does not exists');
+    }
+
     if(description.length > 330) {
       throw new AppError('Maximum description is exceeded');
     }
@@ -34,10 +38,6 @@ class CreatePostService {
 
     if(title.length > 25) {
       throw new AppError('Maximum title is exceeded');
-    }
-
-    if(!user) {
-      throw new AppError('User does not exists');
     }
 
     const post = await this.postsRepositories.create({ title, subtitle, description, id_user })

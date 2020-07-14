@@ -4,7 +4,9 @@ import { uuid } from 'uuidv4';
 
 import ICreatePostsDTO from '@modules/post/dtos/ICreatePostsDTO';
 
-class PostsRepositories {
+import IPostsRepositories from '../IPostsRepositories';
+
+class PostsRepositories implements IPostsRepositories {
   private ormRepository: Posts[];
 
   constructor() {
@@ -37,6 +39,34 @@ class PostsRepositories {
 
   public async findAll(): Promise <Posts[]> {
     return this.ormRepository;
+  }
+
+  public async likeIncrement(id: string): Promise<void> {
+    const newPost = this.ormRepository.find(post => post.id === id);
+
+    if(!newPost) {
+      return;
+    }
+
+    Object.assign(newPost, {
+      likes: newPost.likes + 1
+    })
+
+    this.ormRepository.push(newPost);
+  }
+
+  public async likeDecrement(id: string): Promise<void> {
+    const newPost = this.ormRepository.find(post => post.id === id);
+
+    if(!newPost) {
+      return;
+    }
+
+    Object.assign(newPost, {
+      likes: newPost.likes - 1
+    })
+
+    this.ormRepository.push(newPost);
   }
 }
 
