@@ -19,7 +19,7 @@ class UpdateLikePostServices {
     private usersRepositories: IUsersRepositories,
   ) {}
 
-  public async execute({ id_post, id_user }: ILikesPostsDTO): Promise<void> {
+  public async execute({ id_post, id_user }: ILikesPostsDTO): Promise<boolean> {
     const user = await this.usersRepositories.findById(id_user);
     const post = await this.postsRepositories.findById(id_post);
 
@@ -33,11 +33,13 @@ class UpdateLikePostServices {
       await this.postsRepositories.likeDecrement(id_post);
       await this.likesRepositories.delete({ id_post, id_user });
       
-      return;
+      return false;
     }
 
     await this.postsRepositories.likeIncrement(id_post);
     await this.likesRepositories.create({ id_post, id_user });
+
+    return true
   }
 }
 
