@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+
+import Post from './Post';
 
 @Entity()
 class Like {
@@ -10,6 +12,12 @@ class Like {
 
   @Column()
   id_user: string;
+
+  @ManyToOne(type => Post, post => post.referencedLikes, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'id_post' })
+  post: Post;
 }
 
 export default Like;

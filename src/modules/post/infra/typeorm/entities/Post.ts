@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 import User from '@modules/user/infra/typeorm/entities/User';
 import Comment from '@modules/comment/infra/typeorm/entities/Comment';
+import Likes from './Likes';
 
 @Entity('posts')
 class Post {
@@ -34,6 +35,9 @@ class Post {
     eager: true,
   })
   comments: Comment[];
+
+  @OneToMany(type => Likes, like => like.post)
+  referencedLikes: Likes[];
 
   @CreateDateColumn()
   created_at: Date;
