@@ -11,6 +11,7 @@ const postRoutes = Router();
 postRoutes.use(authenticateUser);
 
 postRoutes.post('/', postsController.create);
+postRoutes.put('/likes', postsController.update);
 postRoutes.get('/details/:id', postsController.show);
 postRoutes.get('/all', postsController.index);
 
