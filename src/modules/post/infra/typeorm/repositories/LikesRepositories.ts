@@ -28,6 +28,12 @@ class LikesRepositories implements ILikesRepositories {
   public async delete({ id_post, id_user }: ILikesPostsDTO): Promise<void> {
     await this.ormRepositories.delete({ id_post, id_user });
   }
+
+  public async findByUser(id_user: string): Promise<Likes[] | undefined> {
+    const allLikedsPosts = await this.ormRepositories.find({ where: { id_user } });
+
+    return allLikedsPosts;
+  }
 }
 
 export default LikesRepositories;

@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import Like from '../infra/typeorm/entities/Likes';
 import Post from '../infra/typeorm/entities/Post';
 
 import ILikesPostsDTO from '@modules/post/dtos/ILikesPostsDTO';
@@ -22,7 +21,7 @@ class UpdateLikePostServices {
     private usersRepositories: IUsersRepositories,
   ) {}
 
-  public async execute({ id_post, id_user }: ILikesPostsDTO): Promise<number> {
+  public async execute({ id_post, id_user }: ILikesPostsDTO): Promise<object> {
     const user = await this.usersRepositories.findById(id_user);
     const post = await this.postsRepositories.findById(id_post);
 
@@ -30,19 +29,23 @@ class UpdateLikePostServices {
       throw new AppError('User or post does not exists.');
     }
 
-    const alreadyLiked = await this.likesRepositories.findByIds({ id_post, id_user })
+    let alreadyLiked = !!await this.likesRepositories.findByIds({ id_post, id_user })
 
     if(alreadyLiked) {
       await this.postsRepositories.likeDecrement(id_post);
       await this.likesRepositories.delete({ id_post, id_user });
+
+      alreadyLiked = false;
     } else {
       await this.postsRepositories.likeIncrement(id_post);
       await this.likesRepositories.create({ id_post, id_user });
+
+      alreadyLiked = true;
     }
 
     const { likes } = await this.postsRepositories.findById(id_post) as Post;
 
-    return likes;
+    return { likes, alreadyLiked };
   }
 }
 
