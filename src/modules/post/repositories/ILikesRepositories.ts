@@ -6,4 +6,5 @@ export default interface ILikesRepositories {
   create({ id_post, id_user }: ILikesPostsDTO): Promise<void>;
   delete({ id_post, id_user }: ILikesPostsDTO): Promise<void>;
   findByIds({ id_post, id_user }: ILikesPostsDTO): Promise<Likes | undefined>;
+  findByUser(id_user: string): Promise<Likes[] | undefined>;
 }

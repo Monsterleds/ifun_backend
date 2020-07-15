@@ -7,7 +7,7 @@ import ListAllPostsServices from '@modules/post/services/ListAllPostsServices';
 import UpdateLikePostServices from '@modules/post/services/UpdateLikePostServices';
 
 export default class PostsController {
-  public async create(request: Request, response: Response, next: NextFunction) {
+  public async create(request: Request, response: Response, next: NextFunction): Promise<Response> {
     const { description, subtitle, title, id_user } = request.body;
 
     const createPostService = container.resolve(CreatePostService);
@@ -17,7 +17,7 @@ export default class PostsController {
     return response.json(post);
   }
   
-  public async show(request: Request, response: Response, next: NextFunction) {
+  public async show(request: Request, response: Response, next: NextFunction): Promise<Response> {
     const { id } = request.params;
 
     const listPostDetailsServices = container.resolve(ListPostDetailsServices);
@@ -27,7 +27,7 @@ export default class PostsController {
     return response.json(post);
   }
 
-  public async index(request: Request, response: Response, next: NextFunction) {
+  public async index(request: Request, response: Response, next: NextFunction): Promise<Response> {
     const listAllPostsServices = container.resolve(ListAllPostsServices);
   
     const allPosts =  await listAllPostsServices.execute();
@@ -35,7 +35,7 @@ export default class PostsController {
     return response.json(allPosts);
   }
 
-  public async update(request: Request, response: Response, next: NextFunction) {
+  public async update(request: Request, response: Response, next: NextFunction): Promise<Response> {
     const { id_post, id_user } = request.body; 
 
     const updateLikePostServices = container.resolve(UpdateLikePostServices);
