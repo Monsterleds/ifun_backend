@@ -10,6 +10,9 @@ class Comments {
   @Column()
   description: string;
 
+  @Column()
+  name: string;
+
   @Column({ select: false })
   id_post: string;
 
