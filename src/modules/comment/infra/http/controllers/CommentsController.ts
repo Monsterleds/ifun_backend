@@ -5,11 +5,11 @@ import CreateCommentService from '@modules/comment/services/CreateCommentService
 
 export default class CommentsController {
   public async create(request: Request, response: Response, next: NextFunction) {
-    const { description, id_post } = request.body;
+    const { description, id_post, name } = request.body;
 
     const createCommentService = container.resolve(CreateCommentService);
 
-    const comment = await createCommentService.execute({ description, id_post });
+    const comment = await createCommentService.execute({ description, id_post, name });
 
     return response.json(comment)
   }

@@ -8,11 +8,12 @@ const postsController = new PostsController();
 
 const postRoutes = Router();
 
+postRoutes.get('/all', postsController.index);
+
 postRoutes.use(authenticateUser);
 
 postRoutes.post('/', postsController.create);
 postRoutes.put('/likes', postsController.update);
 postRoutes.get('/details/:id', postsController.show);
-postRoutes.get('/all', postsController.index);
 
 export default postRoutes;

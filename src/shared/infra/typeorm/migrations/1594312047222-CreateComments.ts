@@ -18,6 +18,11 @@ export class CreateComments1594312047222 implements MigrationInterface {
                     isNullable: false,
                 },
                 {
+                    name: 'name',
+                    type: 'varchar',
+                    isNullable: false,
+                },
+                {
                     name: 'id_post',
                     type: 'varchar',
                     isNullable: false,

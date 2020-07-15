@@ -6,6 +6,7 @@ import IPostsRepositories from '@modules/post/repositories/IPostsRepositories';
 import AppError from '@shared/errors/AppError';
 
 interface Request {
+  name: string;
   description: string;
   id_post: string;
 }
@@ -19,14 +20,14 @@ class CreateCommentServices {
     private commentsRepositories: ICommentsRepositories
     ) {}
 
-  public async execute({ description, id_post }: Request) {
+  public async execute({ description, name, id_post }: Request) {
     const post = await this.postsRepositories.findById(id_post);
 
     if(!post) {
       throw new AppError('Post does not exists', 400);
     }
 
-    const comment = await this.commentsRepositories.create({ description, id_post });
+    const comment = await this.commentsRepositories.create({ description, name, id_post });
 
     return comment;
   }
