@@ -44,7 +44,7 @@ describe('CreateComment', () => {
 
     const { id } = await createPostServices.execute(post)
 
-    const comment = await createCommentServices.execute({ id_post: id, description: 'WOWWW COOOOL' });
+    const comment = await createCommentServices.execute({ id_post: id, name: newUser.name, description: 'WOWWW COOOOL' });
 
     expect(comment).toHaveProperty('id');
   })
@@ -55,6 +55,41 @@ describe('CreateComment', () => {
     const fakeCommentRepository = new FakeCommentRepository();
     const createCommentServices = new CreateCommentServices(fakePostsRepositories, fakeCommentRepository);
  
-    await expect(createCommentServices.execute({ id_post: 'wrong id', description: 'WOWWW COOOOL' })).rejects.toBeInstanceOf(AppError);
+    await expect(createCommentServices.execute({ id_post: 'wrong id', name: 'John Doe', description: 'WOWWW COOOOL' })).rejects.toBeInstanceOf(AppError);
+  })
+
+  it('should not be able to create a comment exceeding the max length', async () => {
+    const fakeUsersRepositories = new FakeUsersRepositories();
+    const createUserServices = new CreateUserServices(fakeUsersRepositories);
+    
+    const fakePostsRepositories = new FakePostsRepositories();
+    const createPostServices = new CreatePostServices(fakeUsersRepositories, fakePostsRepositories);
+
+    const fakeCommentRepository = new FakeCommentRepository();
+    const createCommentServices = new CreateCommentServices(fakePostsRepositories, fakeCommentRepository);
+
+    const user = {
+      name: 'John Doe',
+      email: 'johndoe@gmail.com',
+      password: '123456'
+    }
+
+    const newUser = await createUserServices.execute(user);
+
+    if(!newUser?.id) {
+      throw new AppError('User need a id', 400)
+    }
+
+    const post = {
+      id_user: newUser.id,
+      title: 'funny hehe',
+      subtitle: 'awd',
+      description: 'HAHAHA COOL',
+      avatar_id: ''
+    };
+
+    const { id } = await createPostServices.execute(post)
+ 
+    await expect(createCommentServices.execute({ id_post: id, name: 'John Doe', description: 'EXCEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEDING' })).rejects.toBeInstanceOf(AppError);
   })
 })
