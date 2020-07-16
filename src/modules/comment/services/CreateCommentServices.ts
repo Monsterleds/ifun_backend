@@ -23,8 +23,12 @@ class CreateCommentServices {
   public async execute({ description, name, id_post }: Request) {
     const post = await this.postsRepositories.findById(id_post);
 
-    if(!post) {
-      throw new AppError('Post does not exists', 400);
+    if(!post || !name || !description) {
+      throw new AppError('Post, name or description does not exists', 400);
+    }
+
+    if(description.length > 300) {
+      throw new AppError('Description length is exceeded');
     }
 
     const comment = await this.commentsRepositories.create({ description, name, id_post });

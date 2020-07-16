@@ -18,7 +18,7 @@ class FakeLikesRepositories implements ILikesRepositories {
       id: uuid(),
       id_post,
       id_user
-    });
+    } as Likes);
   }
 
   public async findByIds({ id_post, id_user }: ILikesPostsDTO): Promise<Likes | undefined> {
@@ -31,6 +31,12 @@ class FakeLikesRepositories implements ILikesRepositories {
     const index = this.ormRepositories.findIndex(post => (post.id_post === id_post && post.id_user === id_user))
 
     this.ormRepositories.splice(index);
+  }
+
+  public async findByUser(id_user: string): Promise<Likes[] | undefined> {
+    const allLikedsPosts = this.ormRepositories.filter(like => like.id_user === id_user);
+
+    return allLikedsPosts;
   }
 }
 
