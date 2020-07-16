@@ -23,13 +23,13 @@ class AuthenticatedUserServices {
     const user = await this.usersRepositories.findByEmail(email);
 
     if(!user) {
-      throw new AppError('Email/password does not match.', 401);
+      throw new AppError('Email ou senha não estão corretos.', 400);
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if(!passwordMatch) {
-      throw new AppError('Email/password does not match.', 401);
+      throw new AppError('Email ou senha não estão corretos.', 400);
     }
 
     const token = sign({}, authConfiguration.jwt.secret, {
