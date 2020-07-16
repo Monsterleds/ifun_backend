@@ -24,7 +24,7 @@ class CreateUserService {
     const user = await this.usersRepositories.findByEmail(email);
 
     if(user) {
-      throw new AppError('User already exists.');
+      throw new AppError('Usuário já existe.');
     }
 
     const passwordHashed = await hash(password, 12)

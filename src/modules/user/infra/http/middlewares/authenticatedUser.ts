@@ -9,7 +9,7 @@ function authenticatedUser(request: Request, response: Response, next: NextFunct
   const authorization = request.headers.authorization;
 
   if(!authorization) {
-    throw new AppError('Missing authentication token.', 401)
+    throw new AppError('Faltando token de autenticação.', 401)
   }
 
   const [, token] = authorization.split(' ');
@@ -19,7 +19,7 @@ function authenticatedUser(request: Request, response: Response, next: NextFunct
 
     return next();
   } catch(err) {
-    throw new AppError('Invalid token')
+    throw new AppError('Token invalido', 401)
   }
 }
 
