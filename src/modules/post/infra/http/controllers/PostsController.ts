@@ -5,6 +5,7 @@ import CreatePostService from '@modules/post/services/CreatePostServices';
 import ListPostDetailsServices from '@modules/post/services/ListPostDetailsServices';
 import ListAllPostsServices from '@modules/post/services/ListAllPostsServices';
 import UpdateLikePostServices from '@modules/post/services/UpdateLikePostServices';
+import DeletePostServices from '@modules/post/services/DeletePostServices';
 
 export default class PostsController {
   public async create(request: Request, response: Response, next: NextFunction): Promise<Response> {
@@ -43,5 +44,15 @@ export default class PostsController {
     const likedPost = await updateLikePostServices.execute({ id_user, id_post });
 
     return response.json(likedPost);
+  }
+
+  public async delete(request: Request, response: Response, next: NextFunction): Promise<Response> {
+    const { id_post, id_user } = request.params; 
+
+    const deletePostServices = container.resolve(DeletePostServices);
+
+    await deletePostServices.execute({ id_post, id_user });
+
+    return response.status(200).json();
   }
 }
