@@ -32,12 +32,22 @@ class PostsRepositories implements IPostsRepositories {
     return allPosts;
   }
 
+  public async findByUserId(id_user: string): Promise<Posts[] | undefined> {
+    const posts = await this.ormRepository.find({ where: { id_user } });
+
+    return posts;
+  }
+
   public async likeIncrement(id: string): Promise<void> {
     await this.ormRepository.increment({ id }, 'likes', 1);
   }
 
   public async likeDecrement(id: string): Promise<void> {
     await this.ormRepository.decrement({ id }, 'likes', 1);
+  }
+
+  public async delete(id: string): Promise<void> {
+    await this.ormRepository.delete({ id });
   }
 }
 
