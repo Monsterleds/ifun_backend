@@ -15,6 +15,6 @@ postRoutes.use(authenticateUser);
 postRoutes.post('/', postsController.create);
 postRoutes.put('/likes', postsController.update);
 postRoutes.get('/details/:id', postsController.show);
-postRoutes.delete('/:id_post/:id_user', postsController.delete);
+postRoutes.delete('/:id_user/:id_post', postsController.delete);
 
 export default postRoutes;
