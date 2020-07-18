@@ -41,6 +41,14 @@ class PostsRepositories implements IPostsRepositories {
     return this.ormRepository;
   }
 
+  public async delete(id: string): Promise<void> {
+    this.ormRepository.splice(this.ormRepository.findIndex(post => post.id === id), 1);
+  }
+
+  public async findByUserId(id_user: string): Promise<Posts[]> {
+    return this.ormRepository.filter(post => post.id_user === id_user);
+  }
+
   public async likeIncrement(id: string): Promise<void> {
     const newPost = this.ormRepository.find(post => post.id === id);
 

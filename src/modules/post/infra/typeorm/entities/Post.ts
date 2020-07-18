@@ -24,7 +24,7 @@ class Post {
   @Column()
   avatar_id: string;
 
-  @Column({ select: false })
+  @Column()
   id_user: string;
 
   @ManyToOne(type => User, user => user.post)

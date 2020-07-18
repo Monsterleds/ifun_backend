@@ -32,7 +32,7 @@ class PostsRepositories implements IPostsRepositories {
     return allPosts;
   }
 
-  public async findByUserId(id_user: string): Promise<Posts[] | undefined> {
+  public async findByUserId(id_user: string): Promise<Posts[]> {
     const posts = await this.ormRepository.find({ where: { id_user } });
 
     return posts;
