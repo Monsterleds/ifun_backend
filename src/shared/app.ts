@@ -9,6 +9,7 @@ import cors from 'cors';
 import rateLimiter from './infra/http/middlewares/rateLimiter';
 import routes from './infra/http/routes';
 import AppError from './errors/AppError';
+import uploadConfig from '@config/upload';
 
 import './infra/typeorm/index';
 
@@ -16,6 +17,7 @@ const app = express();
 
 app.use(rateLimiter);
 app.use(express.json());
+app.use('/files', express.static(uploadConfig.directory));
 app.use(cors());
 app.use(routes);
 

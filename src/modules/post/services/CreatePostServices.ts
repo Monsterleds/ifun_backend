@@ -21,7 +21,7 @@ class CreatePostService {
     @inject('PostsRepositories')
     private postsRepositories: IPostsRepositories) {}
 
-  public async execute({ title, subtitle, description, id_user }: RequestDTO) {
+  public async execute({ title, subtitle, description, id_user, avatar_id = '' }: RequestDTO) {
     const user = await this.usersRepositories.findById(id_user);
 
     if(!user) {
@@ -40,7 +40,7 @@ class CreatePostService {
       throw new AppError('Maximum title is exceeded');
     }
 
-    const post = await this.postsRepositories.create({ title, subtitle, description, id_user })
+    const post = await this.postsRepositories.create({ title, subtitle, description, id_user, avatar_id })
 
     return post;
   }

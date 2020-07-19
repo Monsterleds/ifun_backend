@@ -9,11 +9,11 @@ import DeletePostServices from '@modules/post/services/DeletePostServices';
 
 export default class PostsController {
   public async create(request: Request, response: Response, next: NextFunction): Promise<Response> {
-    const { description, subtitle, title, id_user } = request.body;
+    const data = request.body;
 
     const createPostService = container.resolve(CreatePostService);
 
-    const post = await createPostService.execute({ description, subtitle, title, id_user })
+    const post = await createPostService.execute(data)
 
     return response.json(post);
   }
