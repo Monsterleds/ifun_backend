@@ -21,7 +21,7 @@ class CreatePostService {
     @inject('PostsRepositories')
     private postsRepositories: IPostsRepositories) {}
 
-  public async execute({ title, subtitle, description, id_user, avatar_id = '' }: RequestDTO) {
+  public async execute({ title, subtitle, description, id_user, avatar_id }: RequestDTO) {
     const user = await this.usersRepositories.findById(id_user);
 
     if(!user) {
