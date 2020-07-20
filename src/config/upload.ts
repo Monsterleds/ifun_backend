@@ -4,6 +4,7 @@ import crypto from 'crypto';
 
 const tmpFolder = resolve(__dirname, '..', 'shared', 'tmp');
 
+
 export default {
   directory: tmpFolder,
 
